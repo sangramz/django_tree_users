@@ -1,0 +1,39 @@
+<ul id="tree1">
+  <li>XRP
+      <ul>
+          <li>Company Maintenance</li>
+          <li>Employees
+              <ul>
+                  <li>Reports
+                      <ul>
+                          <li>Report1</li>
+                          <li>Report2</li>
+                          <li>Report3</li>
+                      </ul>
+                  </li>
+                  <li>Employee Maint.</li>
+              </ul>
+          </li>
+          <li>Human Resources</li>
+      </ul>
+  </li>
+</ul>
+
+{% recursetree resellers %}
+<ul id="tree1">
+<li>{{ node.reseller_name }}
+  {% if not node.is_leaf_node %}
+    <ul class="children">
+      {{ children }}
+    </ul>
+  {% endif %}
+  {% if node.cust_children.all %}
+    <ul>
+      {% for customer in node.cust_children.all %}
+        <li>{{ customer.customer_name }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</li>
+</ul>
+{% endrecursetree %}
