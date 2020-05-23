@@ -59,7 +59,16 @@ def CreateCustomer(request):
 
 @login_required(login_url='login')
 def ViewReseller(request, pk):
-    reseller = Reseller.objects.get(id=pk)
-    context = { 'reseller' : reseller }
+    resellers = Reseller.objects.all()
+    customers = Customer.objects.all()
+    reseller_details = Reseller.objects.get(id=pk)
+    context = { 'resellers' : resellers, 'customers' : customers, 'reseller_details' : reseller_details }
+    return render(request, 'main/dashboard/view_reseller.html', context)
 
-
+@login_required(login_url='login')
+def ViewCustomer(request, pk):
+    resellers = Reseller.objects.all()
+    customers = Customer.objects.all()
+    customer_details = Customer.objects.get(id=pk)
+    context = { 'resellers' : resellers, 'customers' : customers, 'customer_details' : customer_details }
+    return render(request, 'main/dashboard/view_customer.html', context)

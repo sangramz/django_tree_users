@@ -155,7 +155,7 @@
                    <ul id="tree1">
                    {% recursetree resellers %}
                    
-                   <li><a href="{{ node.id }}"><i class="fa fa-home"></i>
+                   <li><a href="{% url 'ViewReseller' node.id %}"><i class="fa fa-home"></i>
                        {{ node.reseller_name }}</a>
                      {% if not node.is_leaf_node %}
                        <ul class="children">
@@ -165,7 +165,7 @@
                      {% if node.cust_children.all %}
                        <ul>
                          {% for customer in node.cust_children.all %}
-                           <li><a href="{{ customer.id }}"><i class="fa fa-user"></i>
+                           <li><a href="{% url 'ViewCustomer' customer.id %}"><i class="fa fa-user"></i>
                                {{ customer.customer_name }}</a></li>
                          {% endfor %}
                        </ul>
