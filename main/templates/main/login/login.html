@@ -67,9 +67,10 @@
                     <div class="fxt-content">
                         <div class="fxt-form">
                             <form method="POST">
+                                {% csrf_token %}
                                 <div class="form-group">  
                                     <label for="email" class="input-label">Email Address</label>                                              
-                                    <input type="email" id="email" class="form-control" name="email" placeholder="demo@gmail.com" required="required">
+                                    <input type="test" id="email" class="form-control" name="username" placeholder="username" required="required">
                                 </div>
                                 <div class="form-group">  
                                     <label for="password" class="input-label">Password</label>                                               

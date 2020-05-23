@@ -142,7 +142,7 @@
                 <ul class="nav navbar-nav">
                    
                     <li class="active">
-                        <a href="index.html"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                        <a href="{% url 'dashboard' %}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
                     </li>
 
                     <li class="menu-title">Users</li><!-- /.menu-title -->
@@ -155,8 +155,8 @@
                    <ul id="tree1">
                    {% recursetree resellers %}
                    
-                   <li><i class="fa fa-home"></i>
-                       {{ node.reseller_name }}
+                   <li><a href="{{ node.id }}"><i class="fa fa-home"></i>
+                       {{ node.reseller_name }}</a>
                      {% if not node.is_leaf_node %}
                        <ul class="children">
                          {{ children }}
@@ -165,8 +165,8 @@
                      {% if node.cust_children.all %}
                        <ul>
                          {% for customer in node.cust_children.all %}
-                           <li><i class="fa fa-user"></i>
-                               {{ customer.customer_name }}</li>
+                           <li><a href="{{ customer.id }}"><i class="fa fa-user"></i>
+                               {{ customer.customer_name }}</a></li>
                          {% endfor %}
                        </ul>
                      {% endif %}
@@ -183,17 +183,7 @@
                     -->
                   
                   
-                   <!--
-                        <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-home"></i>Reseller</a>
-                        <ul class="sub-menu children dropdown-menu"> 
-                                                      
-                            <li><i class="fa fa-home"></i><a href="#">Reseller</a></li>
-                            <li><i class="fa fa-user"></i><a href="ui-tabs.html">Customer</a></li>
-                        </ul>
-                    </li>
-             
-                  -->
+               
 
                       
                                    
@@ -216,13 +206,8 @@
             <div class="top-right">
                 <div class="header-menu">
                     <div class="header-left">
-                        <button class="search-trigger"><i class="fa fa-search"></i></button>
-                        <div class="form-inline">
-                            <form class="search-form">
-                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
-                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
-                            </form>
-                        </div>
+                        <a href="{% url 'CreateReseller' %}"><button type="button" class="btn btn-secondary"><i class="fa fa-plus"></i>&nbsp; Reseller</button></a>
+                        <a href="{% url 'CreateCustomer' %}"><button type="button" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp; Customer</button></a>
 
                         <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -260,7 +245,7 @@
 
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
 
@@ -268,12 +253,15 @@
             </div>
         </header>
         <!-- /#header -->
+
+     
+
         <!-- Content -->
         <div class="content">
             <!-- Animated -->
-         
-
-
+         {% block content %}
+          
+        {% endblock %}
             <!-- .animated -->
         </div>
         <!-- /.content -->
