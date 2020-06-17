@@ -621,7 +621,6 @@ aside.left-panel {
       .navbar .navbar-nav li > a {
         background: none !important;
         color: #607d8b;
-        display: inline-block;
         font-size: 14px;
         line-height: 26px;
         padding: 10px 0;

@@ -64,130 +64,89 @@
             height: 160px;
         }
 
-   
+    </style>
+<style>
+ul, #userTree {
+  list-style-type: none;
+}
 
-    </style>
-    <style>
-        .tree, .tree ul {
-            margin:0;
-            padding:0;
-            list-style:none
-        }
-        .tree ul {
-            margin-left:1em;
-            position:relative
-        }
-        .tree ul ul {
-            margin-left:.5em
-        }
-        .tree ul:before {
-            content:"";
-            display:block;
-            width:0;
-            position:absolute;
-            top:0;
-            bottom:0;
-            left:0;
-            border-left:1px solid
-        }
-        .tree li {
-            margin:0;
-            padding:0 1em;
-            line-height:2em;
-            color:#06C395;
-            font-weight:700;
-            position:relative
-        }
-        .tree ul li:before {
-            content:"";
-            display:block;
-            width:10px;
-            height:0;
-            border-top:1px solid;
-            margin-top:-1px;
-            position:absolute;
-            top:1em;
-            left:0
-        }
-        .tree ul li:last-child:before {
-            background:#fff;
-            height:auto;
-            top:1em;
-            bottom:0
-        }
-        .indicator {
-            margin-right:5px;
-        }
-        .tree li a {
-            text-decoration: none;
-            color:#369;
-        }
-        .tree li button, .tree li button:active, .tree li button:focus {
-            text-decoration: none;
-            color:#369;
-            border:none;
-            background:transparent;
-            margin:0px 0px 0px 0px;
-            padding:0px 0px 0px 0px;
-            outline: 0;
-        }
-    </style>
+#userTree {
+  width: 100%;
+  margin-left: 10%;
+}
+
+.caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */'
+  transform: rotate(90deg);  
+}
+
+.nested {
+  display: none;
+  padding-left : 5%;
+}
+
+.active {
+  display: block;
+}
+</style>
+ 
 </head>
 
 <body>
     <!-- Left Panel -->
     <aside id="left-panel" class="left-panel">
         <nav class="navbar navbar-expand-sm navbar-default">
+           
+           
+
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                   
                     <li class="active">
                         <a href="{% url 'dashboard' %}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
                     </li>
 
                     <li class="menu-title">Users</li><!-- /.menu-title -->
                  
-                   <!--
-                       
-                                    User Tree 
-                    
-                    -->
-                   <ul id="tree1">
-                   {% recursetree resellers %}
-                   
-                   <li><a href="{% url 'ViewReseller' node.id %}"><i class="fa fa-home"></i>
-                       {{ node.reseller_name }}</a>
-                     {% if not node.is_leaf_node %}
-                       <ul class="children">
-                         {{ children }}
-                       </ul>
-                     {% endif %}
-                     {% if node.cust_children.all %}
-                       <ul>
-                         {% for customer in node.cust_children.all %}
-                           <li><a href="{% url 'ViewCustomer' customer.id %}"><i class="fa fa-user"></i>
-                               {{ customer.customer_name }}</a></li>
-                         {% endfor %}
-                       </ul>
-                     {% endif %}
-                   </li>
-                   
-                   {% endrecursetree %}
-                </ul>
-                  
+                        <ul id="userTree">
+                        {% recursetree resellers %}
+                        <li><span class="caret"></span><a href="{% url 'ViewReseller' node.id %}">
+                            {{ node.reseller_name }} {{ a }}  <i class="fa fa-home"></i></a>
+                            {% if node.cust_children.all %}
+                            <ul class="nested">
 
-                <!--
-                       
-                                    User Tree 
-                    
-                    -->
-                  
-                  
-               
+                                {% for customer in node.cust_children.all %}
+                                <li><a href="{% url 'ViewCustomer' customer.id %}">
+                                    {{ customer.customer_name }}   <i class="fa fa-user"></i></a></li>
+                                {% endfor %}
 
-                      
+                                {% if not node.is_leaf_node %}
+                                <ul class="children">
+                                    {{ children }}
+                                </ul>
+                                {% endif %}
+                                
+                            </ul>
+                            {% endif %}   
+                        </li>
+                        {% endrecursetree %}
+                        </ul>
                                    
-                </ul>
             </div><!-- /.navbar-collapse -->
         </nav>
     </aside>
@@ -282,9 +241,7 @@
         <!-- /.site-footer -->
     </div>
     <!-- /#right-panel -->
-    <script>
-        
-    </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
@@ -310,6 +267,17 @@
     <script src="{% static '/dashboard/assets/js/init/fullcalendar-init.js' %}"></script>
 
     <!--Local Stuff-->
+    <script>
+        var toggler = document.getElementsByClassName("caret");
+        var i;
+
+        for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
+        }
+        </script>
     <script>
         $.fn.extend({
     treed: function (o) {
